@@ -6,7 +6,7 @@
 - **Source Location:** `components/runtime/arkrt/`
 - **Role:** System Runtime and Initial Userspace Process (PID 1)
 - **Primary Language:** Swift / C
-- **Implementation Status:** Planned (Not implemented)
+- **Implementation Status:** Implemented (Two-stage C starter + Swift PID 1 supervisor with declarative `.serve` service definitions)
 
 `arkrt` is the primary runtime process and initialization manager for ARK-OS. It is executed directly by the Linux kernel as PID 1 upon completing kernel boot. Its core responsibility is establishing early userspace, mounting required virtual filesystems, reaping orphaned child processes, and managing the lifecycle of system services.
 
@@ -15,23 +15,25 @@
 ## Core Responsibilities
 
 1. **PID 1 Process Responsibilities:**
-   - Adopting orphaned child processes and reaping zombie processes via `waitpid` / `epoll`.
-   - Handling system-wide signals (`SIGTERM`, `SIGINT`, `SIGCHLD`, `SIGHUP`).
-   - Triggering clean system shutdown, reboot, or poweroff.
+   - Adopting orphaned child processes and reaping zombie processes non-blockingly via `waitpid`.
+   - Handling system-wide signals (`SIGTERM`, `SIGINT`, `SIGCHLD`).
+   - Triggering clean system shutdown with a 15-second timeout and SIGKILL escalation.
 2. **Early Userspace Initialization:**
    - Mounting essential pseudo-filesystems:
      - `/proc` (procfs)
      - `/sys` (sysfs)
      - `/dev` (devtmpfs)
      - `/run` (tmpfs)
-   - Configuring the initial system hostname and system time.
-   - Opening and redirecting standard input, output, and error streams to `/dev/console` or early logging rings.
+     - `/dev/pts` (devpts)
+     - `/dev/shm` (tmpfs)
+   - Opening and redirecting standard input, output, and error streams to `/dev/console` (with serial fallback).
 3. **Service Supervision:**
-   - Parsing declarative service definitions.
-   - Starting background services in dependency order.
-   - Monitoring service health, restarting failed services according to restart policies, and logging lifecycle events.
+   - Discovering and parsing declarative `.serve` service definitions from `/etc/ark/services.d/`.
+   - Enforcing deterministic topological dependency ordering (`after`, `requires`) and cycle detection.
+   - Monitoring service health, restarting failed services according to restart policies (`never`, `always`, `on-failure`), and logging lifecycle transitions.
+   - Isolating each service in a dedicated process group (`PGID == PID`) for clean signal broadcast.
 4. **Interactive Handoff:**
-   - Launching the primary interactive shell (`sash`) on the target console once core services are operational.
+   - Launching the primary interactive shell (`sash`) on the target console once core services are operational (Planned).
 
 ---
 
