@@ -6,9 +6,9 @@
 - **Source Location:** `host-tools/aake/`
 - **Role:** Host-Side Build and System Image Orchestration Tool
 - **Execution Target:** Host Development Machine (Linux)
-- **Implementation Status:** Planned (Not implemented)
+- **Implementation Status:** Implemented and verified (Native C orchestrator backed by Ninja, Soong-inspired UI, bootstrap Makefile, envsetup.sh integration, doctor/build/test/clean subcommands)
 
-`aake` is the build orchestration tool designed for ARK-OS development. It coordinates the compilation of first-party Swift and C components, the preparation of kernel assets, and the assembly of root filesystems and disk images.
+`aake` is the official build orchestrator for ARK-OS. It coordinates the compilation of first-party Swift and C components, manifest evaluation, Ninja build graph generation, environment diagnostic checks, and test harness execution.
 
 ---
 

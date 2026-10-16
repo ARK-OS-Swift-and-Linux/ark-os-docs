@@ -5,10 +5,10 @@
 - **Component Name:** `libark`
 - **Source Location:** `components/libraries/libark/`
 - **Role:** Shared First-Party System Library
-- **Primary Language:** Swift (with minimal C shims for Linux syscalls)
-- **Implementation Status:** Planned (Not implemented)
+- **Primary Language:** Swift (with minimal C shims for Linux syscalls and terminal ioctl)
+- **Implementation Status:** Implemented and verified (51 unit tests passing across Filesystem, Metadata, Permissions, Platform, Syscall, and Terminal modules on Darwin, Linux Glibc, and Linux Musl)
 
-`libark` is the foundational shared library for ARK-OS. It provides common data structures, typed POSIX wrappers, system call abstractions, IPC client primitives, and core utilities required across first-party userspace programs (including `arkrt`, `sash`, and system daemons).
+`libark` is the foundational shared library for ARK-OS. It provides common data structures, typed POSIX wrappers, cross-platform filesystem metadata, system call abstractions, terminal control, and core utilities required across first-party userspace programs (including `arkrt`, `sash`, and system daemons).
 
 ---
 

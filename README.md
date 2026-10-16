@@ -8,9 +8,15 @@ Documentation in this repository acts as the single source of truth for architec
 
 ---
 
+## Core Documentation
+
+- **[System State, Architecture, and Verification Guide](file:///home/aarav/repo/arkos/docs/architecture/ARK-OS-STATE-AND-ARCHITECTURE.md):** Canonical, evidence-based status of the entire ARK-OS ecosystem, verification matrices, component implementation inventory, and subsystem architecture.
+
+---
+
 ## Directory Organization
 
-- `architecture/` - High-level system architecture, component specifications (`components/`), subsystem designs, and IPC models.
+- `architecture/` - High-level system architecture, component specifications (`components/`), subsystem designs, and IPC models. See [System State and Architecture](file:///home/aarav/repo/arkos/docs/architecture/ARK-OS-STATE-AND-ARCHITECTURE.md).
 - `decisions/` - Architecture Decision Records (ADRs 0001 through 0006) recording accepted technical decisions, considered alternatives, and the unresolved-decision catalog.
 - `bringup/` - Step-by-step procedures, emulator parameters, and milestone criteria for bringing up ARK-OS on target platforms.
 - `development/` - Developer guides, toolchain setup requirements, coding standards, and debugging workflows.

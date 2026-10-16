@@ -4,10 +4,10 @@
 
 - **Component Area:** `components/boot/`
 - **Role:** Kernel Handoff, Early Boot Payload Assembly, and Bootloader Configuration
-- **Primary Language:** Configuration, C, Assembly, Shell
-- **Implementation Status:** Planned (Not implemented)
+- **Primary Language:** C (GNU-EFI), Shell, Make
+- **Implementation Status:** Implemented and verified (`ARKBOOT.EFI` x86_64 UEFI bootloader with Stage A visual dot and Stage B Linux 64-bit handoff; direct QEMU kernel boot supported)
 
-The `components/boot/` area encompasses the kernel launch parameters, initramfs blueprints, and bootloader integration assets required to transition from hardware/firmware initialization to the Linux kernel and userspace runtime (`arkrt`).
+The `components/boot/` area encompasses the first-party UEFI bootloader (`ARKBOOT.EFI`), kernel launch parameters, initramfs assembly rules, and artifact synchronization scripts (`sync.sh`) required to transition from hardware/firmware initialization to the Linux kernel and userspace runtime (`arkrt`).
 
 Per [ADR-0004](file:///home/aarav/repo/arkos/docs/decisions/ADR-0004-initial-boot-process-initramfs.md), ARK-OS boot architecture is strictly divided into two phases: an initial direct-kernel bring-up phase and a subsequent persistent-storage bootloader phase.
 
@@ -55,6 +55,6 @@ Following successful verification of `arkrt` and minimal userspace in the standa
 
 ## Design Invariants and Constraints
 
-- **No Custom Bootloaders:** ARK-OS uses established, standard boot mechanisms. No proprietary or custom bootloader implementation is planned.
-- **Staged Complexity:** Direct QEMU boot must remain supported as a lightweight test target even after persistent disk image bootloaders are implemented.
+- **First-Party UEFI Bootloader:** ARK-OS implements a dedicated x86_64 UEFI bootloader (`ARKBOOT.EFI`) using GNU-EFI, implementing Stage A graphical display (centered white dot on black) and Stage B Linux 64-bit boot protocol handoff.
+- **Staged Complexity:** Direct QEMU boot (`-kernel` / `-initrd`) remains supported as a fast, lightweight developer test target alongside full UEFI boot.
 - **Deterministic Handoff:** The boundary between kernel init and `/sbin/arkrt` must remain explicit, with failures producing clear diagnostic output on the serial console.

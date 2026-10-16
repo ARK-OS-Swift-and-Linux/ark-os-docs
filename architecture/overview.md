@@ -87,6 +87,16 @@ Detailed context for unresolved and deferred items is documented in [docs/decisi
 
 ---
 
-## 5. Implementation Status
+## 5. Implementation Status and Architecture Guide
 
-Currently, all layers described above are architectural specifications. No functional code, binaries, or active service daemons exist in the repository. Implementation will proceed incrementally starting with `libark` and `arkrt` early startup.
+The ARK-OS core foundational layers have transitioned from architectural specification into active, verified implementation:
+
+- **Core Library (`libark`):** Implemented and verified (51 unit tests passing across Filesystem, Metadata, Syscall, and Terminal modules on Darwin, Linux Glibc, and Linux Musl).
+- **Init Runtime (`arkrt`):** Implemented and verified (Two-stage C starter + Swift PID 1 supervisor, passing 14/14 lifecycle and dependency supervisor tests).
+- **Build Orchestration (`aake`):** Implemented and verified (Native C build orchestrator backed by Ninja, Soong-inspired UI, bootstrap Makefile, and `envsetup.sh`).
+- **Bootloader (`components/boot`):** Implemented and verified (`ARKBOOT.EFI` x86_64 UEFI bootloader using GNU-EFI, implementing Stage A graphical dot and Stage B Linux handoff).
+- **Sysbuilts Pipeline (`Stations/Sysbuilts`):** Implemented and verified (musl libc v1.2.5 + mimalloc v2.1.9 relocatable sysroot and CI workflow).
+- **Linux Kernel Foundation:** Integrated and automated (Linux Zen Kernel v7.2.10-zen1 with automated SHA-256 sync via `sync.sh`).
+
+For the comprehensive, evidence-based status report, data flows, and subsystem verification matrices, refer to the authoritative document:  
+**[System State, Architecture, and Verification Guide](file:///home/aarav/repo/arkos/docs/architecture/ARK-OS-STATE-AND-ARCHITECTURE.md)**.
